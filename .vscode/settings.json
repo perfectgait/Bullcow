@@ -1,0 +1,8 @@
+{
+	"files.exclude": {
+		"/Users/mrathbun/Projects/Unreal/BullCow/Saved": true,
+		"/Users/mrathbun/Projects/Unreal/BullCow/Content": true,
+		"/Users/mrathbun/Projects/Unreal/BullCow/.vscode": true,
+		"/Users/mrathbun/Projects/Unreal/BullCow/Intermediate": true
+	}
+}
