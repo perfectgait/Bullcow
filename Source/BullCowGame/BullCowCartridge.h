@@ -24,5 +24,7 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	void WinGame();
 	void EndGame();
 	void ProcessGuess(FString Guess);
+	// const means that the passed in value will not be manipulated
 	bool IsIsogram(FString Word) const;
+	TArray<FString> GetValidWords(TArray<FString> Words) const;
 };
