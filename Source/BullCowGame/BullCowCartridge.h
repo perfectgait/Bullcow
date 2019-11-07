@@ -20,11 +20,14 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	FString HiddenWord;
 	int32 Lives;
 	bool bGameOver;
+	TArray<FString> Isograms;
+
 	void StartGame();
 	void WinGame();
 	void EndGame();
-	void ProcessGuess(FString Guess);
+	void ProcessGuess(const FString& Guess);
 	// const means that the passed in value will not be manipulated
-	bool IsIsogram(FString Word) const;
-	TArray<FString> GetValidWords(TArray<FString> Words) const;
+	bool IsIsogram(const FString& Word) const;
+	TArray<FString> GetValidWords(const TArray<FString>& WordList) const;
+	void GetBullCows(const FString Guess, int32& BullCount, int32& CowCount) const;
 };

@@ -6,7 +6,8 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
-    TArray<FString> ValidWords = GetValidWords(Words);
+    Isograms = GetValidWords(Words);
+
     StartGame();
 }
 
@@ -25,7 +26,7 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
     ProcessGuess(Input);
 }
 
-void UBullCowCartridge::ProcessGuess(FString Guess)
+void UBullCowCartridge::ProcessGuess(const FString& Guess)
 {
     if (Guess == HiddenWord)
     {
@@ -59,10 +60,14 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
         return;
     }
 
+    int32 Bulls, Cows;
+    GetBullCows(Guess, Bulls, Cows);
+
+    PrintLine(TEXT("You have %i Bulls and %i Cows"), Bulls, Cows);
     PrintLine(TEXT("Uh oh, only %i lives left!"), Lives);
 }
 
-bool UBullCowCartridge::IsIsogram(FString Word) const
+bool UBullCowCartridge::IsIsogram(const FString& Word) const
 {
     for (int32 Index = 0; Index < Word.Len() - 1; Index++)
     {
@@ -78,7 +83,7 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
     return true;
 }
 
-TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> WordList) const
+TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList) const
 {
     TArray<FString> ValidWords;
 
@@ -95,9 +100,34 @@ TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> WordList) const
     return ValidWords;
 }
 
+void UBullCowCartridge::GetBullCows(const FString Guess, int32& BullCount, int32& CowCount) const
+{
+    BullCount = 0;
+    CowCount = 0;
+
+    for (int32 GuessIndex = 0; GuessIndex < Guess.Len(); GuessIndex++)
+    {
+        if (Guess[GuessIndex] == HiddenWord[GuessIndex])
+        {
+            BullCount++;
+
+            continue;
+        }
+
+        for (int32 HiddenIndex = 0; HiddenIndex < HiddenWord.Len(); HiddenIndex++)
+        {
+            if (Guess[GuessIndex] == HiddenWord[HiddenIndex])
+            {
+                CowCount++;
+            }
+        }
+        
+    }
+}
+
 void UBullCowCartridge::StartGame()
 {
-    HiddenWord = TEXT("dork");
+    HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num() - 1)];
     Lives = HiddenWord.Len();
     bGameOver = false;
 
