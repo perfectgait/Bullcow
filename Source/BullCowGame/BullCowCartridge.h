@@ -6,6 +6,12 @@
 #include "Console/Cartridge.h"
 #include "BullCowCartridge.generated.h"
 
+struct FBullCowCount
+{
+	int32 Bulls = 0;
+	int32 Cows = 0;
+};
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 {
@@ -29,5 +35,5 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	// const means that the passed in value will not be manipulated
 	bool IsIsogram(const FString& Word) const;
 	TArray<FString> GetValidWords(const TArray<FString>& WordList) const;
-	void GetBullCows(const FString Guess, int32& BullCount, int32& CowCount) const;
+	FBullCowCount GetBullCows(const FString& Guess) const;
 };
